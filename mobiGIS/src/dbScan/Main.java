@@ -12,11 +12,14 @@ public class Main {
 		fileReaderGraph.ReadFile(listOfVertices);
 		
 		for (int i = 0; i < listOfVertices.size(); i++) {
-		
-			System.out.println(i + " " + listOfVertices.get(i).get(0) 
-				+ " " + listOfVertices.get(i).get(1) 
-				+ " " + listOfVertices.get(i).get(2) 
-				+ " " + listOfVertices.get(i).get(3));
+			
+			System.out.print(i);
+			
+			for (int j = 0; j < listOfVertices.get(i).size(); j++) {
+				System.out.print(" " + listOfVertices.get(i).get(j) + " ");
+			}
+			
+			System.out.println(" ");
 				
 		}
 		

@@ -20,6 +20,7 @@ public class FileReaderGraph {
 		return 6378137 * java.lang.Math.toRadians(longitude);
 	}*/
 
+	int counter = 0;
 	
 	ArrayList<ArrayList<Double>> listOfVertices = new ArrayList<ArrayList<Double>>();
 	
@@ -35,37 +36,44 @@ public class FileReaderGraph {
 
 			String textOfFile = br.readLine();
 			
+			
+			
 			while ((textOfFile = br.readLine()) != null) {
 
 				ArrayList<Double> vertex = new ArrayList<Double>();
 				
-				splitAux = textOfFile.split(";");
-				
-				split0 = splitAux[0].split(",");
-				
-				vertex.add(Double.parseDouble(split0[0]));
-				vertex.add(Double.parseDouble(split0[1]));
-				System.out.println(splitAux[0]);
-				
-				if(splitAux[1] != null){
-									
-					split1 = splitAux[1].split(",");
+				if (textOfFile.contains(";")) {
+				    
+					splitAux = textOfFile.split(";");
 					
+					split0 = splitAux[0].split(",");
+					vertex.add(Double.parseDouble(split0[0]));
+					vertex.add(Double.parseDouble(split0[1]));
+					
+					split1 = splitAux[1].split(",");	
 					vertex.add(Double.parseDouble(split1[0]));
 					vertex.add(Double.parseDouble(split1[1]));
-					System.out.println(splitAux[1]);
-				} else{
 					
+//					System.out.println(splitAux[0] + ";" + splitAux[1]);
+					
+				} else {
+					
+					split0 = textOfFile.split(",");
+					
+					vertex.add(Double.parseDouble(split0[0]));
+					vertex.add(Double.parseDouble(split0[1]));
+//					System.out.println(split0[0] + ";" + split0[1]);
+				    
 				}
 				
-				
-				
-				System.out.println("\n\n");
 
 				listOfVertices.add(vertex);
+				counter++;
 
 			}
 
+			System.out.println(counter);
+			
 			br.close();
 
 		} catch (IOException e) {
