@@ -7,6 +7,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		ArrayList<ArrayList<Double>> listOfVertices = new ArrayList<ArrayList<Double>>();
+
 		
 		FileReaderGraph fileReaderGraph = new FileReaderGraph();
 		fileReaderGraph.ReadFile(listOfVertices);
