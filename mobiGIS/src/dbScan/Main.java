@@ -8,11 +8,16 @@ public class Main {
 		
 		ArrayList<ArrayList<Double>> listOfVertices = new ArrayList<ArrayList<Double>>();
 		
-		ArrayList<StreetVertex> teste = new ArrayList<StreetVertex>();
+		ArrayList<StreetVertex> testeVertex = new ArrayList<StreetVertex>();
+		ArrayList<StreetEdge> testeEdge = new ArrayList<StreetEdge>();
 
 		
 		FileReaderGraph fileReaderGraph = new FileReaderGraph();
 		fileReaderGraph.ReadFile(listOfVertices);
+		
+//		System.out.println(listOfVertices.size());
+//		System.out.println(listOfVertices.get(2).size());
+		
 		
 //		for (int i = 0; i < listOfVertices.size(); i++) {
 //			
@@ -28,8 +33,10 @@ public class Main {
 		
 		PreProcessing listOfStreetVertices = new PreProcessing();
 		
-		teste = listOfStreetVertices.vertexNormalization(listOfVertices);
 		
+		
+		testeVertex = listOfStreetVertices.vertexNormalization(listOfVertices);
+		testeEdge = listOfStreetVertices.edgeNormalization(listOfVertices, testeVertex);		
 		
 	}
 	

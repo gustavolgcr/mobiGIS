@@ -72,7 +72,7 @@ public class FileReaderGraph {
 
 			}
 
-			System.out.println(counter);
+//			System.out.println(counter);
 			
 			br.close();
 
