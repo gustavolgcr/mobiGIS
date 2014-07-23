@@ -25,7 +25,4 @@ public class StreetVertex extends DirectedSparseVertex {
 	public void setLon(double lon) {
 		this.lon = lon;
 	}
-
-	
-
 }
