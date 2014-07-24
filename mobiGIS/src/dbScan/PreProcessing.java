@@ -56,7 +56,7 @@ public class PreProcessing {
 				
 				streetEdges.setWeight(Math.sqrt((p1-q1)*(p1-q1)+(p2-q2)*(p2-q2)));
 				
-				System.out.println("\t\tAdding vertex " + streetEdges.getEdgeID() + ". From: " + streetEdges.getFrom()
+				System.out.println("\t\tAdding edge " + streetEdges.getEdgeID() + ". From: " + streetEdges.getFrom()
 				+ ". To: " + streetEdges.getTo() + ". Weight: " + streetEdges.getWeight() + ".");
 				
 				edgesInfo.add(streetEdges);
