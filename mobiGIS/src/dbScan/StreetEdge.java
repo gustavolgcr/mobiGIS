@@ -1,6 +1,6 @@
 package dbScan;
 
-public class StreetEdge  {
+public class StreetEdge {
 
 	int edgeID, from, to;
 	double weight;

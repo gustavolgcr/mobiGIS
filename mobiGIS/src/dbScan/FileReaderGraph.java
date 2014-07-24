@@ -7,24 +7,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-
 public class FileReaderGraph {
-
-/*	public static double latitudeY(double latitude) {
-		return 6378137 * java.lang.Math.log(java.lang.Math
-				.tan(java.lang.Math.PI / 4 + 0.5
-						* java.lang.Math.toRadians(latitude)));
-	}
-
-	public static double longitudeX(double longitude) {
-		return 6378137 * java.lang.Math.toRadians(longitude);
-	}*/
-
-	int counter = 0;
-	
-	ArrayList<ArrayList<Double>> listOfVertices = new ArrayList<ArrayList<Double>>();
-	
-	void ReadFile(ArrayList<ArrayList<Double>> listOfVertices) {
+		
+	void ReadFile(ArrayList<ArrayList<Double>> rawData) {
 
 		String[] split0, split1, splitAux;
 		
@@ -35,10 +20,8 @@ public class FileReaderGraph {
 			BufferedReader br = new BufferedReader(isr);
 
 			String textOfFile = br.readLine();
-			
-			
-			
-			while ((textOfFile = br.readLine()) != null) {
+				
+			do {
 
 				ArrayList<Double> vertex = new ArrayList<Double>();
 				
@@ -54,25 +37,19 @@ public class FileReaderGraph {
 					vertex.add(Double.parseDouble(split1[0]));
 					vertex.add(Double.parseDouble(split1[1]));
 					
-//					System.out.println(splitAux[0] + ";" + splitAux[1]);
-					
 				} else {
 					
 					split0 = textOfFile.split(",");
 					
 					vertex.add(Double.parseDouble(split0[0]));
 					vertex.add(Double.parseDouble(split0[1]));
-//					System.out.println(split0[0] + ";" + split0[1]);
 				    
-				}
+				} 
 				
 
-				listOfVertices.add(vertex);
-				counter++;
+				rawData.add(vertex);
 
-			}
-
-//			System.out.println(counter);
+			} while ((textOfFile = br.readLine()) != null);
 			
 			br.close();
 

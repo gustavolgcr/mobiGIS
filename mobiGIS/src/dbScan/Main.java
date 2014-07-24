@@ -6,17 +6,16 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		ArrayList<ArrayList<Double>> listOfVertices = new ArrayList<ArrayList<Double>>();
+		ArrayList<ArrayList<Double>> rawData = new ArrayList<ArrayList<Double>>();
 		
-		ArrayList<StreetVertex> testeVertex = new ArrayList<StreetVertex>();
-		ArrayList<StreetEdge> testeEdge = new ArrayList<StreetEdge>();
+		ArrayList<StreetVertex> listOfVertices = new ArrayList<StreetVertex>();
+		ArrayList<StreetEdge> listOfEdges = new ArrayList<StreetEdge>();
 
 		
 		FileReaderGraph fileReaderGraph = new FileReaderGraph();
-		fileReaderGraph.ReadFile(listOfVertices);
 		
-//		System.out.println(listOfVertices.size());
-//		System.out.println(listOfVertices.get(2).size());
+		//Porque passar rawData nesse metodo ao inves de receber como retorno do mesmo?
+		fileReaderGraph.ReadFile(rawData);
 		
 		
 //		for (int i = 0; i < listOfVertices.size(); i++) {
@@ -35,8 +34,16 @@ public class Main {
 		
 		
 		
-		testeVertex = listOfStreetVertices.vertexNormalization(listOfVertices);
-		testeEdge = listOfStreetVertices.edgeNormalization(listOfVertices, testeVertex);		
+		listOfVertices = listOfStreetVertices.vertexNormalization(rawData);
+		
+		System.out.println("\tLista de vertices encontrados");
+		for(int i = 0; i < listOfVertices.size(); i++) {
+			
+			System.out.print(listOfVertices.get(i).getIndex() + ", ");
+		}
+		
+		
+		listOfEdges = listOfStreetVertices.edgeNormalization(rawData, listOfVertices);		
 		
 	}
 	
