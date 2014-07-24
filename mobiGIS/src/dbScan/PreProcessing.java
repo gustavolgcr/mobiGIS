@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class PreProcessing {
 
+	ArrayList<Point> pointsInfo = new ArrayList<Point>();
 	ArrayList<StreetVertex> verticesInfo = new ArrayList<StreetVertex>();
 	ArrayList<StreetEdge> edgesInfo = new ArrayList<StreetEdge>();
 
@@ -94,4 +95,9 @@ public class PreProcessing {
 
 	}
 
+	public ArrayList<Point> pointNormalization(ArrayList<ArrayList<Double>> listOfPoints,  
+			ArrayList<StreetVertex> verticesInfo) {
+		
+		return pointsInfo;
+	}
 }

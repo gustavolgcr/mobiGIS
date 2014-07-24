@@ -1,24 +1,10 @@
 package dbScan;
 
-public class point {
+public class Point {
 
 	private long id;
 	private double longPonto, latPonto,  distPontoOrigem;
 	private double longVertOrigem, latVertOrigem, longVertDestino, latVertDestino;
-
-	point(long id, double longPonto, double latPonto,  double distPontoOrigem, double longVertOrigem, 
-			double latVertOrigem,  double longVertDestino, double latVertDestino) {
-
-		this.id = id;
-		this.longPonto = longPonto;
-		this.latPonto = latPonto;
-		this.distPontoOrigem = distPontoOrigem;
-		this.longVertOrigem = longVertOrigem;
-		this.latVertOrigem = latVertOrigem;
-		this.longVertDestino = longVertDestino;
-		this.latVertDestino = latVertDestino;
-
-	}
 
 	public long getId() {
 		return id;
