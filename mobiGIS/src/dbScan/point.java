@@ -5,10 +5,10 @@ public class point {
 	private long id;
 	private double longPonto, latPonto,  distPontoOrigem;
 	private double longVertOrigem, latVertOrigem, longVertDestino, latVertDestino;
-	
+
 	point(long id, double longPonto, double latPonto,  double distPontoOrigem, double longVertOrigem, 
 			double latVertOrigem,  double longVertDestino, double latVertDestino) {
-		
+
 		this.id = id;
 		this.longPonto = longPonto;
 		this.latPonto = latPonto;
@@ -17,7 +17,7 @@ public class point {
 		this.latVertOrigem = latVertOrigem;
 		this.longVertDestino = longVertDestino;
 		this.latVertDestino = latVertDestino;
-		
+
 	}
 
 	public long getId() {
@@ -83,5 +83,5 @@ public class point {
 	public void setLatVertDestino(double latVertDestino) {
 		this.latVertDestino = latVertDestino;
 	}
-	
+
 }

@@ -4,7 +4,7 @@ public class StreetEdge {
 
 	int edgeID, from, to;
 	double weight;
-	
+
 	public int getEdgeID() {
 		return edgeID;
 	}

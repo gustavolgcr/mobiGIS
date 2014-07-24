@@ -1,12 +1,14 @@
 package dbScan;
 
-import edu.uci.ics.jung.graph.impl.DirectedSparseVertex;
 
-public class StreetVertex extends DirectedSparseVertex {
-	
+
+//public class StreetVertex extends DirectedSparseVertex {
+public class StreetVertex {
+
 	private int index;
 	private double lat, lon;
-	
+	private boolean clusterFlag;
+
 	public int getIndex() {
 		return index;
 	}
@@ -25,4 +27,11 @@ public class StreetVertex extends DirectedSparseVertex {
 	public void setLon(double lon) {
 		this.lon = lon;
 	}
+	public boolean getClusterFlag() {
+		return clusterFlag;
+	}
+	public void setClusterFlag(boolean clusterFlag) {
+		this.clusterFlag = clusterFlag;
+	}
+	
 }
