@@ -8,12 +8,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class FileReaderGraph {
-
+	
 	void ReadFile(ArrayList<ArrayList<Double>> rawData) {
 
 		String[] split0, split1, splitAux;
 
 		try {
+			
 			InputStream is = new FileInputStream("src/grafoRedeDeRuas.txt");
 
 			InputStreamReader isr = new InputStreamReader(is);
@@ -46,7 +47,6 @@ public class FileReaderGraph {
 
 				} 
 
-
 				rawData.add(vertex);
 
 			} while ((textOfFile = br.readLine()) != null);
@@ -54,7 +54,9 @@ public class FileReaderGraph {
 			br.close();
 
 		} catch (IOException e) {
+			
 			System.out.println("Qual foi o erro? " + e);
+		
 		}
 
 	}
