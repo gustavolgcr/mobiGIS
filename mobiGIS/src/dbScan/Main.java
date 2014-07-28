@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import edu.uci.ics.jung.graph.DirectedGraph;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -16,54 +18,10 @@ public class Main {
 		ArrayList<StreetEdge> listOfEdges = new ArrayList<StreetEdge>();
 
 		PreProcessing processor = new PreProcessing();
-		
+
 		//Reading pointsToCluster.txt
 		FileReaderPoint fileReaderPoint = new FileReaderPoint();
 		fileReaderPoint.ReadFile(rawPointsToCluster);
-
-		try {
-
-			StringBuilder storage = new StringBuilder();
-
-			for (int j = 0; j < rawPointsToCluster.size(); j++) {
-
-				storage.append(String.valueOf(rawPointsToCluster.get(j).get(0) ));
-				storage.append(" ");
-				storage.append(String.valueOf(rawPointsToCluster.get(j).get(1) ));
-				storage.append(" ");
-				storage.append(String.valueOf(rawPointsToCluster.get(j).get(2) ));
-				storage.append(" ");
-				storage.append(String.valueOf(rawPointsToCluster.get(j).get(3) ));
-				storage.append(" ");
-				storage.append(String.valueOf(rawPointsToCluster.get(j).get(4) ));
-				storage.append(" ");
-				storage.append(String.valueOf(rawPointsToCluster.get(j).get(5) ));
-				storage.append(" ");
-				storage.append(String.valueOf(rawPointsToCluster.get(j).get(6) ));
-				storage.append("\n");
-
-			}
-
-			File file = new File("/Users/gustavolgcr/Desktop/rawPointsToCluster.txt");
-
-			// if file doesn't exists, then create it
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(storage.toString());
-			bw.close();
-
-			System.out.println("Done creating rawPointsToCluster.txt");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
-
 
 		//Reading grafoRedeDeRuas.txt
 		FileReaderGraph fileReaderGraph = new FileReaderGraph();
@@ -73,7 +31,7 @@ public class Main {
 
 		//List of Vertices: VertexID Latitude Longitude ClusterFlag
 		listOfVertices = processor.vertexNormalization(rawGrafoRedeDeRuas, rawPointsToCluster);
-		
+
 		try {
 
 			StringBuilder storage = new StringBuilder();
@@ -109,90 +67,10 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		try {
 
-			StringBuilder storage = new StringBuilder();
-
-
-			for (int j = 0; j < listOfVertices.size(); j++) {
-
-				storage.append(String.valueOf(listOfVertices.get(j).getIndex() ));
-				storage.append(" ");
-				storage.append(String.valueOf(listOfVertices.get(j).getLat() ));
-				storage.append(" ");
-				storage.append(String.valueOf(listOfVertices.get(j).getLon() ));
-				storage.append("\n");
-
-			}
-
-			File file = new File("/Users/gustavolgcr/Desktop/DataPoints.txt");
-
-			// if file doesn't exists, then create it
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(storage.toString());
-			bw.close();
-
-			System.out.println("Done creating DataPoints.txt");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-
-			StringBuilder storage = new StringBuilder();
-
-			storage.append("1: ");
-			for (int j = 0; j < listOfVertices.size(); j++) {
-
-				if(listOfVertices.get(j).getClusterFlag()==false){
-					storage.append(String.valueOf(listOfVertices.get(j).getIndex() ));
-					storage.append(" ");
-				}		
-
-			}
-			
-			storage.append("\n");
-			storage.append("2: ");
-			
-			for (int j = 0; j < listOfVertices.size(); j++) {
-
-				if(listOfVertices.get(j).getClusterFlag()==true){
-					storage.append(String.valueOf(listOfVertices.get(j).getIndex() ));
-					storage.append(" ");
-				}		
-
-			}
-
-			File file = new File("/Users/gustavolgcr/Desktop/ClusterInfo.txt");
-
-			// if file doesn't exists, then create it
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(storage.toString());
-			bw.close();
-
-			System.out.println("Done creating ClusterInfo.txt");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-		
 		listOfEdges = processor.edgeNormalization(rawGrafoRedeDeRuas, listOfVertices, rawPointsToCluster);
 
-		
+
 		try {
 
 			StringBuilder storage = new StringBuilder();
@@ -228,10 +106,39 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		GraphBuilder graphBuilder = new GraphBuilder();
+	   
+		DirectedGraph<MyNode, MyLink> g;
+		
+		g = graphBuilder.constructGraph(listOfVertices, listOfEdges);
+		
 
-//		GraphPlotter g = new GraphPlotter();
-//
-//		g.graphPlotter(listOfVertices, listOfEdges);
+		
+		try {
+
+			StringBuilder storage = new StringBuilder();
+
+			storage.append(g.toString());
+			storage.append("\n");
+
+			File file = new File("/Users/gustavolgcr/Desktop/graph.txt");
+
+			// if file doesn't exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(storage.toString());
+			bw.close();
+
+			System.out.println("Done creating graph.txt");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
