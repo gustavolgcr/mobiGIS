@@ -51,7 +51,7 @@ public class Main {
 
 			}
 
-			File file = new File("/Users/gustavolgcr/Desktop/listOfVertices.txt");
+			File file = new File("/home/gustavolgcr/Desktop/listOfVertices.txt");
 
 			// if file doesn't exists, then create it
 			if (!file.exists()) {
@@ -85,7 +85,7 @@ public class Main {
 
 			}
 
-			File file = new File("/Users/gustavolgcr/Desktop/DataPoints.txt");
+			File file = new File("/home/gustavolgcr/Desktop/DataPoints.txt");
 
 			// if file doesn't exists, then create it
 			if (!file.exists()) {
@@ -129,7 +129,7 @@ public class Main {
 
 			}
 
-			File file = new File("/Users/gustavolgcr/Desktop/ClusterInfo.txt");
+			File file = new File("/home/gustavolgcr/Desktop/ClusterInfo.txt");
 
 			// if file doesn't exists, then create it
 			if (!file.exists()) {
@@ -167,7 +167,7 @@ public class Main {
 
 			}
 
-			File file = new File("/Users/gustavolgcr/Desktop/listOfEdges.txt");
+			File file = new File("/home/gustavolgcr/Desktop/listOfEdges.txt");
 
 			// if file doesn't exists, then create it
 			if (!file.exists()) {
@@ -259,7 +259,7 @@ public class Main {
 //			storage.append(g.toString());
 //			storage.append("\n");
 
-			File file = new File("/Users/gustavolgcr/Desktop/graphTeste.txt");
+			File file = new File("/home/gustavolgcr/Desktop/graphTeste.txt");
 
 			// if file doesn't exists, then create it
 			if (!file.exists()) {
