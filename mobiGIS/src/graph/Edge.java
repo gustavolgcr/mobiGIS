@@ -2,10 +2,10 @@ package graph;
 
 public class Edge {
 
-	private int index;
-	private double from, to, weight;
+	private int index, from, to;
+	private double weight;
 	
-	public Edge(int index, double from, double to, double weight) {
+	public Edge(int index, int from, int to, double weight) {
 		this.index = index;
 		this.from = from;
 		this.to = to;
@@ -26,19 +26,19 @@ public class Edge {
 		this.index = index;
 	}
 
-	public double getFrom() {
+	public int getFrom() {
 		return from;
 	}
 
-	public void setFrom(double from) {
+	public void setFrom(int from) {
 		this.from = from;
 	}
 
-	public double getTo() {
+	public int getTo() {
 		return to;
 	}
 
-	public void setTo(double to) {
+	public void setTo(int to) {
 		this.to = to;
 	}
 

@@ -1,29 +1,29 @@
 package dbScan;
+import graph.Graph;
 import graph.Vertex;
+import graph.DijkstraAlgorithm;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Utility {
-
-//	public static ArrayList<Point> listOfVisitedPoints = new ArrayList<Point>();
 	
 	public static ArrayList<Vertex> listOfVisitedNodes = new ArrayList<Vertex>();
 
-	public static double getDistance(Vertex a, Vertex b) {
+	// WE MUST CHANGE TO THE DIJKSTRA ALGORITHM
+	public static double getDistance(Vertex a, Vertex b, Graph g) {
 
-		double dx = a.getX() - b.getX();
-		double dy = a.getY() - b.getY();
-
-		double distance = Math.sqrt(dx * dx + dy * dy);
+		
+		DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(g);
+		dijkstra.execute(a);
+		double distance = dijkstra.getDistance(b);
 
 		return distance;
 
 	}
 
-	public static ArrayList<Vertex> getNeighbours(Vertex v) {
+	public static ArrayList<Vertex> getNeighbours(Vertex v, Graph g) {
 
-		
 		ArrayList<Vertex> neighbours = new ArrayList<Vertex>();
 		
 		Iterator<Vertex> vertex = DBScan.listOfVertex.iterator();
@@ -32,7 +32,7 @@ public class Utility {
 			
 			Vertex w = vertex.next();
 			
-			if (getDistance(v, w) <= DBScan.eps) {
+			if (getDistance(v, w, g) <= DBScan.eps) {
 				neighbours.add(w);
 			}
 		}
@@ -55,11 +55,11 @@ public class Utility {
 		}
 	}
 	
-	public static ArrayList<Point> Merge(ArrayList<Point> a, ArrayList<Point> b) {
+	public static ArrayList<Vertex> Merge(ArrayList<Vertex> a, ArrayList<Vertex> b) {
 		
-		Iterator<Point> iter = b.iterator();
+		Iterator<Vertex> iter = b.iterator();
 		while(iter.hasNext()){
-			Point t = iter.next();
+			Vertex t = iter.next();
 			if(!a.contains(t)){
 				a.add(t);
 			}
@@ -67,8 +67,9 @@ public class Utility {
 		return a;
 	}
 	
-	public static Boolean equalPoints(Point m , Point n) {
-		if((m.getX()==n.getX())&&(m.getY()==n.getY()))
+	public static Boolean equalVertices(Vertex m , Vertex n) {
+		
+		if((m.getLatitude()==n.getLatitude())&&(m.getLongitude()==n.getLongitude()))
 			return true;
 		else
 			return false;
