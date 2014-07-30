@@ -22,20 +22,23 @@ public class Utility {
 		ArrayList<Vertex> neighbours = new ArrayList<Vertex>();
 
 		Iterator<Vertex> vertex = DBScan.listOfClusterizableVertices.iterator();
-		
-		
+
 		while (vertex.hasNext()) {
 
 			Vertex w = vertex.next();
 			
-			System.out.println("Vamos verificar se o vertice " + v.getIndex() + " tem como 'vizinho' o vertice " + w.getIndex());
+			//System.out.println("Vamos verificar se o vertice " + v.getIndex() + " tem como 'vizinho' o vertice " + w.getIndex());
 			
 			if (getDistance(v, w, g) <= DBScan.eps) {
+				
 				neighbours.add(w);
+		
 			}
+		
 		}
 
 		return neighbours;
+		
 	}
 
 	public static void Visited(Vertex v) {
