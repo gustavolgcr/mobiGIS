@@ -1,64 +1,68 @@
 package dbScan;
 
+import graph.Edge;
+import graph.Vertex;
+
 import java.util.ArrayList;
 
 public class PreProcessing {
 
-	ArrayList<Point> pointsInfo = new ArrayList<Point>();
-	ArrayList<StreetVertex> verticesInfo = new ArrayList<StreetVertex>();
-	ArrayList<StreetEdge> edgesInfo = new ArrayList<StreetEdge>();
+	ArrayList<Vertex> listOfVertices = new ArrayList<Vertex>();
+	ArrayList<Edge> listOfEdges = new ArrayList<Edge>();
+	
+	
 	
 	int counter = 0;
 
-	public ArrayList<StreetEdge> edgeNormalization(ArrayList<ArrayList<Double>> rawGrafoRedeDeRuas, 
-			ArrayList<StreetVertex> listOfVertices, ArrayList<ArrayList<Double>> rawPointsToCluster) {
+	public ArrayList<Edge> edgeNormalization(ArrayList<ArrayList<Double>> rawGrafoRedeDeRuas, 
+			ArrayList<Vertex> listOfVertices, ArrayList<ArrayList<Double>> rawPointsToCluster) {
 
 		int counterEdgeID = 0;
 
 		for(int i = 0; i < rawGrafoRedeDeRuas.size(); i++) {
 
-			StreetEdge streetEdges = new StreetEdge();
+			Edge edge = new Edge(0, 0, 0, 0.0);
 			double p1=0.0, p2=0.0, q1=0.0, q2=0.0;
 
 			if(rawGrafoRedeDeRuas.get(i).size() > 2) {
 
 				counterEdgeID++;
-				streetEdges.setEdgeID(counterEdgeID);
+				edge.setIndex(counterEdgeID);
+				
 
 				for(int j = 0; j < listOfVertices.size(); j++) {
-					//Essa comparacao esta ok!
-					if(Double.compare(rawGrafoRedeDeRuas.get(i).get(0), listOfVertices.get(j).getLon()) == 0 && 
-							Double.compare(rawGrafoRedeDeRuas.get(i).get(1), listOfVertices.get(j).getLat()) == 0) {
+					
+					if(Double.compare(rawGrafoRedeDeRuas.get(i).get(0), listOfVertices.get(j).getLongitude()) == 0 && 
+							Double.compare(rawGrafoRedeDeRuas.get(i).get(1), listOfVertices.get(j).getLatitude()) == 0) {
 
-						streetEdges.setFrom(listOfVertices.get(j).getIndex());
-						p1=listOfVertices.get(j).getLat();
-						p2=listOfVertices.get(j).getLon();
+						edge.setFrom(listOfVertices.get(j).getIndex());
+						p1=listOfVertices.get(j).getLatitude();
+						p2=listOfVertices.get(j).getLongitude();
 					}
 
 				}
 
 				for(int j = 0; j < listOfVertices.size(); j++) {
 					//Essa comparacao esta ok!
-					if(Double.compare(rawGrafoRedeDeRuas.get(i).get(2), listOfVertices.get(j).getLon()) == 0 && 
-							Double.compare(rawGrafoRedeDeRuas.get(i).get(3), listOfVertices.get(j).getLat()) == 0) {
+					if(Double.compare(rawGrafoRedeDeRuas.get(i).get(2), listOfVertices.get(j).getLongitude()) == 0 && 
+							Double.compare(rawGrafoRedeDeRuas.get(i).get(3), listOfVertices.get(j).getLatitude()) == 0) {
 
-						streetEdges.setTo(listOfVertices.get(j).getIndex());
-						q1=listOfVertices.get(j).getLat();
-						q2=listOfVertices.get(j).getLon();
+						edge.setTo(listOfVertices.get(j).getIndex());
+						q1=listOfVertices.get(j).getLatitude();
+						q2=listOfVertices.get(j).getLongitude();
 
 					}
 
 				}
 
 			}
-
-			streetEdges.setWeight(Math.sqrt((p1-q1)*(p1-q1)+(p2-q2)*(p2-q2)));
-
-			edgesInfo.add(streetEdges);
+			
+			edge.setWeight(Math.sqrt((p1-q1)*(p1-q1)+(p2-q2)*(p2-q2)));
+			listOfEdges.add(edge);
 
 		}
 
-		int counter = edgesInfo.size();
+		int counter = listOfEdges.size();
 		int fromOfPoint = 0;
 		int toOfPoint = 0;
 		int midOfPoint = 0;
@@ -71,8 +75,8 @@ public class PreProcessing {
 
 			//Comparando o FROM = OK
 			for(int j=0 ; j < listOfVertices.size();j++) {
-				if(Double.compare(rawPointsToCluster.get(i).get(3), listOfVertices.get(j).getLat()) == 0 
-						&& Double.compare(rawPointsToCluster.get(i).get(2), listOfVertices.get(j).getLon()) == 0) {
+				if(Double.compare(rawPointsToCluster.get(i).get(3), listOfVertices.get(j).getLatitude()) == 0 
+						&& Double.compare(rawPointsToCluster.get(i).get(2), listOfVertices.get(j).getLongitude()) == 0) {
 
 					fromOfPoint = listOfVertices.get(j).getIndex();
 
@@ -81,8 +85,8 @@ public class PreProcessing {
 
 			//Comparando o TO = OK
 			for(int j=0 ; j < listOfVertices.size();j++) {
-				if(Double.compare(rawPointsToCluster.get(i).get(4), listOfVertices.get(j).getLon()) == 0 
-						&& Double.compare(rawPointsToCluster.get(i).get(5), listOfVertices.get(j).getLat()) == 0) {
+				if(Double.compare(rawPointsToCluster.get(i).get(4), listOfVertices.get(j).getLongitude()) == 0 
+						&& Double.compare(rawPointsToCluster.get(i).get(5), listOfVertices.get(j).getLatitude()) == 0) {
 
 					toOfPoint = listOfVertices.get(j).getIndex();
 
@@ -91,27 +95,28 @@ public class PreProcessing {
 
 			//Comparando o MID = OK
 			for(int j=0 ; j < listOfVertices.size();j++) {
-				if(Double.compare(rawPointsToCluster.get(i).get(0), listOfVertices.get(j).getLon()) == 0 
-						&& Double.compare(rawPointsToCluster.get(i).get(1), listOfVertices.get(j).getLat()) == 0) {
+				if(Double.compare(rawPointsToCluster.get(i).get(0), listOfVertices.get(j).getLongitude()) == 0 
+						&& Double.compare(rawPointsToCluster.get(i).get(1), listOfVertices.get(j).getLatitude()) == 0) {
 
 					midOfPoint = listOfVertices.get(j).getIndex();
 
 				}
 			}
 
-			for(int j = 0 ; j < edgesInfo.size() ; j++){
-				if(fromOfPoint == edgesInfo.get(j).getFrom() && toOfPoint == edgesInfo.get(j).getTo()) {
+			for(int j = 0 ; j < listOfEdges.size() ; j++){
+				if(fromOfPoint == listOfEdges.get(j).getFrom() && toOfPoint == listOfEdges.get(j).getTo()) {
 
-					StreetEdge streetEdges1 = new StreetEdge();
-					streetEdges1.setEdgeID(counter);
+					Edge edge = new Edge(0, 0, 0, 0.0);
+					edge.setIndex(counter);
+					
 					counter++;
-					streetEdges1.setFrom(fromOfPoint);
+					edge.setFrom(fromOfPoint);
 					
 					for(int k=0 ; k < listOfVertices.size();k++) {
 						if(fromOfPoint == listOfVertices.get(k).getIndex()) {
 
-							p1=listOfVertices.get(k).getLat();
-							p2=listOfVertices.get(k).getLon();
+							p1=listOfVertices.get(k).getLatitude();
+							p2=listOfVertices.get(k).getLongitude();
 
 						}
 					}
@@ -119,27 +124,30 @@ public class PreProcessing {
 					for(int k=0 ; k < listOfVertices.size();k++) {
 						if(midOfPoint == listOfVertices.get(k).getIndex()) {
 
-							q1=listOfVertices.get(k).getLat();
-							q2=listOfVertices.get(k).getLon();
+							q1=listOfVertices.get(k).getLatitude();
+							q2=listOfVertices.get(k).getLongitude();
 
 						}
 					}
 					
-					streetEdges1.setTo(midOfPoint);
-					streetEdges1.setWeight(Math.sqrt((p1-q1)*(p1-q1)+(p2-q2)*(p2-q2)));
+					edge.setTo(midOfPoint);
+					edge.setWeight(Math.sqrt((p1-q1)*(p1-q1)+(p2-q2)*(p2-q2)));
+					
+					
 
-
-
-					StreetEdge streetEdges2 = new StreetEdge();
-					streetEdges2.setEdgeID(counter);
+					// Double check this counter
+					Edge edgeAux = new Edge(0, 0, 0, 0.0);
+					edgeAux.setIndex(counter);
+					
 					counter++;
-					streetEdges2.setFrom(midOfPoint);
+					edgeAux.setFrom(midOfPoint);
+				
 					
 					for(int k=0 ; k < listOfVertices.size();k++) {
 						if(midOfPoint == listOfVertices.get(k).getIndex()) {
 
-							p1=listOfVertices.get(k).getLat();
-							p2=listOfVertices.get(k).getLon();
+							p1=listOfVertices.get(k).getLatitude();
+							p2=listOfVertices.get(k).getLongitude();
 
 						}
 					}
@@ -147,37 +155,36 @@ public class PreProcessing {
 					for(int k=0 ; k < listOfVertices.size();k++) {
 						if(toOfPoint == listOfVertices.get(k).getIndex()) {
 
-							q1=listOfVertices.get(k).getLat();
-							q2=listOfVertices.get(k).getLon();
+							q1=listOfVertices.get(k).getLatitude();
+							q2=listOfVertices.get(k).getLongitude();
 
 						}
 					}
 					
+					edgeAux.setTo(toOfPoint);
+					edgeAux.setWeight(Math.sqrt((p1-q1)*(p1-q1)+(p2-q2)*(p2-q2)));
 					
-					
-					streetEdges2.setTo(toOfPoint);
-					streetEdges2.setWeight(Math.sqrt((p1-q1)*(p1-q1)+(p2-q2)*(p2-q2)));
 
-					edgesInfo.remove(j);
+					listOfEdges.remove(j);
 
-					edgesInfo.add(streetEdges1);
-					edgesInfo.add(streetEdges2);
+					listOfEdges.add(edge);
+					listOfEdges.add(edgeAux);
 				}
 			}
 
 		}
 
-		return edgesInfo;
+		return listOfEdges;
 
 	}
 
-	public ArrayList<StreetVertex> vertexNormalization(ArrayList<ArrayList<Double>> rawGrafoRedeDeRuas, 
+	public ArrayList<Vertex> vertexNormalization(ArrayList<ArrayList<Double>> rawGrafoRedeDeRuas, 
 			ArrayList<ArrayList<Double>> rawPointsToCluster) {
 
 		for(int i = 0; i < rawGrafoRedeDeRuas.size(); i++) {
 
 			boolean flagRepeated = false;
-			StreetVertex streetVertex = new StreetVertex();
+			Vertex vertex = new Vertex(0, 0.0, 0.0, false);
 
 			for(int j = 0 ; j < i; j++) {
 
@@ -192,14 +199,14 @@ public class PreProcessing {
 
 			if(flagRepeated == false) {
 
-				streetVertex.setIndex(i);
-				streetVertex.setLon(rawGrafoRedeDeRuas.get(i).get(0));
-				streetVertex.setLat(rawGrafoRedeDeRuas.get(i).get(1));
-				streetVertex.setClusterFlag(false);
+				vertex.setIndex(i);
+				vertex.setLongitude(rawGrafoRedeDeRuas.get(i).get(0));
+				vertex.setLatitude(rawGrafoRedeDeRuas.get(i).get(1));
+				vertex.setClusterFlag(false);
 				
 				counter = i;
 
-				verticesInfo.add(streetVertex);
+				listOfVertices.add(vertex);
 
 			}
 
@@ -209,18 +216,18 @@ public class PreProcessing {
 
 		for(int i = 0 ; i < rawPointsToCluster.size(); i++) {
 			
-			StreetVertex streetVertex = new StreetVertex();
+			Vertex vertex = new Vertex(0, 0.0, 0.0, false);
 
-			streetVertex.setIndex(counter+i);
-			streetVertex.setLat(rawPointsToCluster.get(i).get(1));
-			streetVertex.setLon(rawPointsToCluster.get(i).get(0));
-			streetVertex.setClusterFlag(true);
+			vertex.setIndex(counter+i);
+			vertex.setLatitude(rawPointsToCluster.get(i).get(1));
+			vertex.setLongitude(rawPointsToCluster.get(i).get(0));
+			vertex.setClusterFlag(true);
 
-			verticesInfo.add(streetVertex);
+			listOfVertices.add(vertex);
 			
 		}
 
-		return verticesInfo;
+		return listOfVertices;
 
 	}
 

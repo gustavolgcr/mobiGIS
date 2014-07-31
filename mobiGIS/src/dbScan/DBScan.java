@@ -3,11 +3,10 @@ package dbScan;
 import java.util.*;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import edu.uci.ics.jung.graph.DirectedGraph;
+import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
 
@@ -20,9 +19,36 @@ public class DBScan {
 	public static List<Vertex> listOfVertices = new ArrayList<Vertex>();
 	public static ArrayList<Vertex> listOfNeighbours = new ArrayList<Vertex>();
 	public static List<ArrayList<Vertex>> listOfResults = new ArrayList<ArrayList<Vertex>>();
+	
+	public static Map<Integer, Map<Integer, Double>> weights = new HashMap<Integer, Map<Integer,Double>>();
+	public static Map<Integer, Double> weightsAux = new HashMap<Integer, Double>();
 
-	public static List<ArrayList<Vertex>> applyDBScan(Graph g) {
+	public List<ArrayList<Vertex>> applyDBScan(Graph g) {
 
+		System.out.println("Carregando estrutura de teste");
+		
+		
+		//Rever essa estrutura
+		for(int i = 0; i<g.getEdges().size();i++) {
+			
+			for(int j = 0 ; j < g.getEdges().size();j++) {
+				weightsAux.put(g.getEdges().get(j).getTo(), g.getEdges().get(j).getWeight());
+			}
+			
+			weights.put(g.getEdges().get(i).getFrom(), weightsAux);
+		}
+		
+		System.out.println("Estrutura de teste carregada");
+
+		for(int i = 0; i<weights.size() ; i++) {
+			for(int j = 0; j<weightsAux.size();j++) {
+				System.out.println(weights.get(i).get(j));
+			}
+		}
+		
+		
+		
+		
 		//Do we really need this variable?
 		listOfVertices = g.getVertices();
 

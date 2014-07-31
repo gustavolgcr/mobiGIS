@@ -32,7 +32,10 @@ public class Dijkstra {
 		
 		//Rever essa estrutura
 		for(int i = 0; i<listOfEdges.size();i++) {
-			weightsAux.put(listOfEdges.get(i).getTo(), listOfEdges.get(i).getWeight());
+			for(int j = 0 ; j < listOfEdges.size();j++) {
+				weightsAux.put(listOfEdges.get(i).getTo(), listOfEdges.get(i).getWeight());
+			}
+			
 			weights.put(listOfEdges.get(i).getFrom(), weightsAux);
 		}
 		

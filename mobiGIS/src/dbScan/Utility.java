@@ -13,6 +13,7 @@ public class Utility {
 		
 		Dijkstra dijkstra = new Dijkstra(g);
 
+		
 		return dijkstra.execute(origin, destiny);
 
 	}
@@ -27,7 +28,7 @@ public class Utility {
 
 			Vertex w = vertex.next();
 			
-			//System.out.println("Vamos verificar se o vertice " + v.getIndex() + " tem como 'vizinho' o vertice " + w.getIndex());
+			System.out.println("Vamos verificar se o vertice " + v.getIndex() + " tem como 'vizinho' o vertice " + w.getIndex());
 			
 			if (getDistance(v, w, g) <= DBScan.eps) {
 				

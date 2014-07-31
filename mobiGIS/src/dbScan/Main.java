@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.uci.ics.jung.graph.DirectedGraph;
+import graph.Dijkstra;
+import graph.Edge;
 import graph.Graph;
+import graph.Vertex;
 
 public class Main {
 
@@ -15,9 +18,8 @@ public class Main {
 
 		ArrayList<ArrayList<Double>> rawPointsToCluster = new ArrayList<ArrayList<Double>>();
 		ArrayList<ArrayList<Double>> rawGrafoRedeDeRuas = new ArrayList<ArrayList<Double>>();
-		ArrayList<StreetVertex> listOfVertices = new ArrayList<StreetVertex>();
-		ArrayList<StreetEdge> listOfEdges = new ArrayList<StreetEdge>();
-
+		ArrayList<Vertex> listOfVertices = new ArrayList<Vertex>();
+		ArrayList<Edge> listOfEdges = new ArrayList<Edge>();
 		PreProcessing processor = new PreProcessing();
 
 		//Reading pointsToCluster.txt
@@ -193,9 +195,12 @@ public class Main {
 
 		Graph g;
 
-		g = graphBuilder.constructGraph2(listOfVertices, listOfEdges);
+		g = graphBuilder.constructGraph(listOfVertices, listOfEdges);
 
 		System.out.println("Criou o grafo");
+		
+		
+	
 
 		System.out.println("DBScan vai comecar agora.");
 		DBScan dbscan = new DBScan();
