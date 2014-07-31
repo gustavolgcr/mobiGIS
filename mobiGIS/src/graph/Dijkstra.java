@@ -13,46 +13,36 @@ public class Dijkstra {
 
 	private final List<Vertex> listOfVertices;
 	private final List<Edge> listOfEdges;
-	private Map<Vertex, Double> distance;
-	private Map<Vertex, Vertex> predecessors;
+	private Map<Integer, Double> distance;
+	private Map<Integer, Vertex> predecessors;
 	private Set<Vertex> settledNodes;
 	private Set<Vertex> unSettledNodes;
 
-	private final Map<Integer, Map<Integer, Double>> weights;
-	private final Map<Integer, Double> weightsAux;
 	private final List<Vertex> S = new ArrayList<Vertex>();
 
 	public Dijkstra(Graph graph) {
 		// create a copy of the array so that we can operate on this array
 		listOfVertices = new ArrayList<Vertex>(graph.getVertices());
-		listOfEdges = new ArrayList<Edge>(graph.getEdges());
-		
-		weightsAux = new HashMap<Integer, Double>();
-		weights = new HashMap<Integer, Map<Integer,Double>>();
-		
-		//Rever essa estrutura
-		for(int i = 0; i<listOfEdges.size();i++) {
-			for(int j = 0 ; j < listOfEdges.size();j++) {
-				weightsAux.put(listOfEdges.get(i).getTo(), listOfEdges.get(i).getWeight());
-			}
-			
-			weights.put(listOfEdges.get(i).getFrom(), weightsAux);
-		}
+		listOfEdges = new ArrayList<Edge>(graph.getEdges());	
 		
 	}
 
 	public double execute(Vertex origin, Vertex destiny) {
 
+		
+		//TODO mudar Vertex para Integer
 		Vertex target = destiny;
-		distance = new HashMap<Vertex, Double>();
-		predecessors = new HashMap<Vertex, Vertex>();
+		distance = new HashMap<Integer, Double>();
+		//distance = new HashMap<Vertex, Double>();
+		predecessors = new HashMap<Integer, Vertex>();
+		//predecessors = new HashMap<Vertex, Vertex>();
 		settledNodes = new HashSet<Vertex>();
 		unSettledNodes = new HashSet<Vertex>();
 
 		double finalDistance = 0.0;
 
 		// Should I put this here?
-		distance.put(origin, 0.0);
+		distance.put(origin.getIndex(), 2.0);
 		//		settledNodes.add(origin);
 
 
@@ -60,8 +50,8 @@ public class Dijkstra {
 		for (int i = 0 ; i < listOfVertices.size() ; i++) {
 
 			if(listOfVertices.get(i).getIndex() != origin.getIndex()) {
-				distance.put(listOfVertices.get(i), Double.POSITIVE_INFINITY);
-				predecessors.put(listOfVertices.get(i), null);
+				distance.put(listOfVertices.get(i).getIndex(), Double.POSITIVE_INFINITY);
+				predecessors.put(listOfVertices.get(i).getIndex(), null);
 
 			}
 
@@ -77,30 +67,28 @@ public class Dijkstra {
 			unSettledNodes.remove(u);
 
 			// 	Added this conditional
-			if(distance.get(u)>DBScan.eps) {
+			System.out.println("Distancia " + distance.get(u.getIndex()) + " > eps " + DBScan.eps );
+			if(distance.get(u.getIndex())>DBScan.eps) {
+				
+				System.out.println("Brecou");
 				//Doubt about this
 				break;
 			} else {
-
+				System.out.println("Passou");
 
 
 				for (int i = 0 ; i < getNeighbors(u).size(); i++) {
 
 					double alternative = 0.0;
 
-					Vertex v =  getNeighbors(u).get(i);
+					alternative = distance.get(u.getIndex()) + getNeighbors(u).get(i).getWeight();
+					//alternative = distance.get(u) + getDistance(u, v);
 
+					if(alternative < distance.get(getNeighbors(u).get(i).getTo())) {
 
+						distance.put(getNeighbors(u).get(i).getTo(), alternative);
 
-					alternative = distance.get(u) + getDistance(u, v);
-
-
-
-					if(alternative < distance.get(v)) {
-
-						distance.put(v, alternative);
-
-						predecessors.put(v, u);
+						predecessors.put(getNeighbors(u).get(i).getTo(), u);
 
 					}
 
@@ -133,7 +121,7 @@ public class Dijkstra {
 			if (minimum == null) {
 				minimum = vertex;
 			} else {
-				if ( distance.get(vertex) < distance.get(minimum)) {
+				if ( distance.get(vertex.getIndex()) < distance.get(minimum.getIndex())) {
 					minimum = vertex;
 				}
 			}
@@ -145,40 +133,32 @@ public class Dijkstra {
 		return settledNodes.contains(d);
 	}
 
-	// Refactored
-	private List<Vertex> getNeighbors(Vertex node) {
+	//TODO Refatorar
+	private List<Edge> getNeighbors(Vertex node) {
 
-		List<Vertex> neighbors = new ArrayList<Vertex>();
+		List<Edge> neighbors = new ArrayList<Edge>();
 
-		Vertex neighbor = null;
-
-		for(int i = 0 ; i < listOfEdges.size() ; i++) {
-			if(listOfEdges.get(i).getFrom() == node.getIndex() && !isSettled(listOfEdges.get(i).getTo())) {
-
-
-				for(int j = 0; j < listOfVertices.size() ; j++) {
-					if(listOfVertices.get(j).getIndex() == listOfEdges.get(i).getTo()) {
-						neighbor = listOfVertices.get(j);
-					}
-				}
-
-
-				neighbors.add(neighbor);
-			}
+		//Vertex neighbor = null;
+		
+		for(int i = 0; i < DBScan.adjacencyList.get(node.getIndex()).size() ; i++) {
+			
+			neighbors.add(DBScan.adjacencyList.get(node.getIndex()).get(i));
+			
 		}
 
 		return neighbors;
 
 	}
 
+	
+	//TODO Refatorar
 	private double getDistance(Vertex node, Vertex target) {
 		
-		System.out.println("Dado " + node.getIndex() + " e " + target.getIndex() + ", peso retornado é: " + weights.get(node.getIndex()).get(target.getIndex()));
+//		System.out.println("Dado " + node.getIndex() + " e " + target.getIndex() + 
+//				", peso retornado é: " + DBScan.adjacencyList.get(node.getIndex()).get().getWeight());
 		
-		return weights.get(node.getIndex()).get(target.getIndex());
+		return DBScan.adjacencyList.get(node.getIndex()).get(target.getIndex()).getWeight();
 		
-//		weightsAux.get(target.getIndex());
-//		
 //		for (Edge edge : listOfEdges) {
 //			//System.out.println("Comparando " + edge.getFrom() + " com " + node.getIndex() + " e " + edge.getTo() + " com " + target.getIndex());
 //			if (edge.getFrom() == node.getIndex() && edge.getTo() == target.getIndex()) {

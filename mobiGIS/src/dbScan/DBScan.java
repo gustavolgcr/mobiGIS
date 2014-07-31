@@ -12,82 +12,68 @@ import graph.Vertex;
 
 public class DBScan {
 
-	public static double eps = 10;	//Isso está em graus. temos que reconsiderar
-	public static int minPoints = 5;
-
+	public static double eps = 0.0001;	//Isso está em graus. temos que reconsiderar
+	public static int minPoints = 20;
 	public static List<Vertex> listOfClusterizableVertices = new ArrayList<Vertex>();
-	public static List<Vertex> listOfVertices = new ArrayList<Vertex>();
 	public static ArrayList<Vertex> listOfNeighbours = new ArrayList<Vertex>();
 	public static List<ArrayList<Vertex>> listOfResults = new ArrayList<ArrayList<Vertex>>();
+
+	public static Map<Integer, List<Edge>> adjacencyList = new HashMap<Integer, List<Edge>>();
 	
-	public static Map<Integer, Map<Integer, Double>> weights = new HashMap<Integer, Map<Integer,Double>>();
-	public static Map<Integer, Double> weightsAux = new HashMap<Integer, Double>();
+	long start, end, diff;
 
 	public List<ArrayList<Vertex>> applyDBScan(Graph g) {
 
-		System.out.println("Carregando estrutura de teste");
+		listOfResults.clear();
+		Utility.listOfVisitedNodes.clear();
 		
-		
-		//Rever essa estrutura
-		for(int i = 0; i<g.getEdges().size();i++) {
-			
-			for(int j = 0 ; j < g.getEdges().size();j++) {
-				weightsAux.put(g.getEdges().get(j).getTo(), g.getEdges().get(j).getWeight());
-			}
-			
-			weights.put(g.getEdges().get(i).getFrom(), weightsAux);
+		// Creating the adjacencyList
+		for(Vertex v : g.getVertices()){
+			adjacencyList.put(v.getIndex(), new ArrayList<Edge>());
+		}	
+		for(Edge e : g.getEdges()){	
+			List<Edge> neighbors = adjacencyList.get(e.getFrom());
+			neighbors.add(e);
 		}
-		
-		System.out.println("Estrutura de teste carregada");
 
-		for(int i = 0; i<weights.size() ; i++) {
-			for(int j = 0; j<weightsAux.size();j++) {
-				System.out.println(weights.get(i).get(j));
-			}
-		}
-		
-		
-		
-		
-		//Do we really need this variable?
-		listOfVertices = g.getVertices();
-
-
+		// Creating the listOfClusterizableVertices.
+		// This list will tell us which vertex should be clusterized and which shouldn't
 		for(int i = 0 ; i<g.getVertices().size() ; i++) {
 			if(g.getVertices().get(i).isClusterFlag() == true) {
 				listOfClusterizableVertices.add(g.getVertices().get(i));
 			}
 		}
 
-		listOfResults.clear();
-		Utility.listOfVisitedNodes.clear();
-
-		for(int i = 0; i < listOfClusterizableVertices.size() ; i++) {
+		// For all vertices in the listOfClusterizableVertices, lets check if it is part of a cluster
+		for(int i=0; i<listOfClusterizableVertices.size(); i++) {
 
 			System.out.println("\tAnalizando o vértice " + listOfClusterizableVertices.get(i).getIndex());
 			Vertex v = listOfClusterizableVertices.get(i);
 
 			if (!Utility.isVisited(v)) {
-
+				System.out.println("Teste 1");
 				Utility.Visited(v);
-
-				// Give eps for getNeighbours as a parameter
+				System.out.println("Teste 2");
+				//Proxima linha esta demorando muito
 				listOfNeighbours = Utility.getNeighbours(v,g);
-
+				System.out.println("Teste 3");
 				if (listOfNeighbours.size() >= minPoints) {
-
-
-					for(int j = 0 ; j < listOfNeighbours.size() ; j++) {
-
+					System.out.println("Teste 4");
+					for(int j=0; j<listOfNeighbours.size(); j++) {
+						System.out.println("Teste 5");
 						Vertex w = listOfNeighbours.get(j);
 						if (!Utility.isVisited(w)) {
+							System.out.println("Teste 6");
 							Utility.Visited(w);
+							//Proxima linha esta demorando muito
 							ArrayList<Vertex> listOfNeighbours2 = Utility.getNeighbours(w,g);
+							System.out.println("Teste 7");
 							if (listOfNeighbours2.size() >= minPoints) {
+								System.out.println("Teste 8");
 								listOfNeighbours = Utility.Merge(listOfNeighbours, listOfNeighbours2);
+								System.out.println("Teste 9");
 							}
 						}
-
 
 					}
 
@@ -118,7 +104,7 @@ public class DBScan {
 				storage.append("\n");
 			}
 
-			File file = new File("/Users/gustavolgcr/Desktop/clusters.txt");
+			File file = new File("/home/gustavolgcr/Desktop/clusters.txt");
 
 			if (!file.exists()) {
 				file.createNewFile();

@@ -10,8 +10,6 @@ public class PreProcessing {
 	ArrayList<Vertex> listOfVertices = new ArrayList<Vertex>();
 	ArrayList<Edge> listOfEdges = new ArrayList<Edge>();
 	
-	
-	
 	int counter = 0;
 
 	public ArrayList<Edge> edgeNormalization(ArrayList<ArrayList<Double>> rawGrafoRedeDeRuas, 
