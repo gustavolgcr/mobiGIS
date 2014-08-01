@@ -23,12 +23,19 @@ public class Utility {
 		ArrayList<Vertex> neighbours = new ArrayList<Vertex>();
 
 		Iterator<Vertex> vertex = DBScan.listOfClusterizableVertices.iterator();
+		
+		
 		//int counter = 0;
 		while (vertex.hasNext()) {
 
+			//Se o eps for menor do que a lista de adjacencia, pode dar um break;
+			
 			Vertex w = vertex.next();
 			//counter ++;
-			//System.out.println("Vamos verificar se o vertice " + v.getIndex() + " tem como 'vizinho' o vertice " + w.getIndex());
+			
+			System.out.println("\tVamos verificar se o vertice " + v.getIndex() + " tem como 'vizinho' no arquivo 'pointsToCluster.txt' o vertice " + w.getIndex());
+			
+			//System.out.println(getDistance(v, w, g) + " e menor ou igual a " + DBScan.eps + "?");
 			
 			if (getDistance(v, w, g) <= DBScan.eps) {
 				

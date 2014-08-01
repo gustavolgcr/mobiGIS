@@ -12,7 +12,7 @@ import graph.Vertex;
 
 public class DBScan {
 
-	public static double eps = 0.0001;	//Isso está em graus. temos que reconsiderar
+	public static double eps = 0.000001;	//Isso está em graus. temos que reconsiderar
 	public static int minPoints = 20;
 	public static List<Vertex> listOfClusterizableVertices = new ArrayList<Vertex>();
 	public static ArrayList<Vertex> listOfNeighbours = new ArrayList<Vertex>();
@@ -24,9 +24,13 @@ public class DBScan {
 
 	public List<ArrayList<Vertex>> applyDBScan(Graph g) {
 
+//		System.out.println("AQUIIIIIIIIIIIII");
+//		System.out.println(g.getEdges().get(136505).getWeight());
+		
 		listOfResults.clear();
 		Utility.listOfVisitedNodes.clear();
 		
+		//TODO Read again this adjacencyList
 		// Creating the adjacencyList
 		for(Vertex v : g.getVertices()){
 			adjacencyList.put(v.getIndex(), new ArrayList<Edge>());
@@ -47,15 +51,22 @@ public class DBScan {
 		// For all vertices in the listOfClusterizableVertices, lets check if it is part of a cluster
 		for(int i=0; i<listOfClusterizableVertices.size(); i++) {
 
-			System.out.println("\tAnalizando o vértice " + listOfClusterizableVertices.get(i).getIndex());
+			System.out.println("Analizando o vértice " + listOfClusterizableVertices.get(i).getIndex() + ".");
 			Vertex v = listOfClusterizableVertices.get(i);
 
 			if (!Utility.isVisited(v)) {
 				System.out.println("Teste 1");
 				Utility.Visited(v);
 				System.out.println("Teste 2");
+				System.out.println("Pegaremos seus vizinhos.");
 				//Proxima linha esta demorando muito
 				listOfNeighbours = Utility.getNeighbours(v,g);
+				
+				System.out.println("Lista do(s) " + listOfNeighbours.size() +" vizinhos de " + listOfClusterizableVertices.get(i).getIndex() + " encontrados:");
+				for(int k=0; k<listOfNeighbours.size();k++) {
+					System.out.println(listOfNeighbours.get(k).getIndex());
+				}
+				
 				System.out.println("Teste 3");
 				if (listOfNeighbours.size() >= minPoints) {
 					System.out.println("Teste 4");
@@ -65,8 +76,10 @@ public class DBScan {
 						if (!Utility.isVisited(w)) {
 							System.out.println("Teste 6");
 							Utility.Visited(w);
+							
 							//Proxima linha esta demorando muito
 							ArrayList<Vertex> listOfNeighbours2 = Utility.getNeighbours(w,g);
+							
 							System.out.println("Teste 7");
 							if (listOfNeighbours2.size() >= minPoints) {
 								System.out.println("Teste 8");

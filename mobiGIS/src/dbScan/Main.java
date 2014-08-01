@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
@@ -26,9 +27,7 @@ public class Main {
 		listOfVertices = reader.listOfVerticesReader();
 		listOfEdges = reader.listOfEdgesReader();
 
-		
-	
-		
+
 		
 		//TODO This looks weired...
 		Graph g;

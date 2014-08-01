@@ -30,24 +30,22 @@ public class Dijkstra {
 	public double execute(Vertex origin, Vertex destiny) {
 
 		
-		//TODO mudar Vertex para Integer
 		Vertex target = destiny;
 		distance = new HashMap<Integer, Double>();
-		//distance = new HashMap<Vertex, Double>();
+		
 		predecessors = new HashMap<Integer, Vertex>();
-		//predecessors = new HashMap<Vertex, Vertex>();
+
 		settledNodes = new HashSet<Vertex>();
 		unSettledNodes = new HashSet<Vertex>();
 
 		double finalDistance = 0.0;
 
-		// Should I put this here?
-		distance.put(origin.getIndex(), 2.0);
-		//		settledNodes.add(origin);
-
-
-
+	
+		distance.put(origin.getIndex(), 0.0);
+		
+		// This size is equal to 70393
 		for (int i = 0 ; i < listOfVertices.size() ; i++) {
+			
 
 			if(listOfVertices.get(i).getIndex() != origin.getIndex()) {
 				distance.put(listOfVertices.get(i).getIndex(), Double.POSITIVE_INFINITY);
@@ -58,59 +56,73 @@ public class Dijkstra {
 			unSettledNodes.add(listOfVertices.get(i));
 
 		}
-
+		
+		System.out.println("Enquanto " +unSettledNodes.size()+" >0, faca:");
 		while(unSettledNodes.size() > 0) {
-
-			// The first vertex will be the 'origin', with distance == 0.0 (see line 38)
+			
+			// Pega o primeiro vertice, que tem distancia = 0.0 Logo, e o minimo
+			System.out.println("\tPega o vertice " + getMinimum(unSettledNodes).getIndex() + "para trabalhar e coloca dentro do settledNodes.");
 			Vertex u = getMinimum(unSettledNodes);
+			// Coloca ele 
 			settledNodes.add(u);
+			
 			unSettledNodes.remove(u);
-
-			// 	Added this conditional
-			System.out.println("Distancia " + distance.get(u.getIndex()) + " > eps " + DBScan.eps );
-			if(distance.get(u.getIndex())>DBScan.eps) {
+			
+			
+			
+			System.out.println("Se " + distance.get(u.getIndex()) + " for maior do que " + DBScan.eps);
+			if(distance.get(u.getIndex()) > DBScan.eps) {
+				//break;
 				
-				System.out.println("Brecou");
-				//Doubt about this
-				break;
+				return Double.POSITIVE_INFINITY;
 			} else {
-				System.out.println("Passou");
-
 
 				for (int i = 0 ; i < getNeighbors(u).size(); i++) {
-
+					
+					
 					double alternative = 0.0;
 
+					//System.out.println("alternative = " + distance.get(u.getIndex()) + " + " + getNeighbors(u).get(i).getWeight());
 					alternative = distance.get(u.getIndex()) + getNeighbors(u).get(i).getWeight();
-					//alternative = distance.get(u) + getDistance(u, v);
-
+					
+					System.out.println("ID: " + getNeighbors(u).get(i).getIndex() + " From: " + getNeighbors(u).get(i).getFrom() + 
+							" To: " + getNeighbors(u).get(i).getTo() + " Weight: " + getNeighbors(u).get(i).getWeight());
+					
+					System.out.println("Alternative = " + distance.get(u.getIndex()) + " + " + getNeighbors(u).get(i).getWeight());
+					
+					System.out.println("Se " + alternative + " for maior do que " + distance.get(getNeighbors(u).get(i).getTo()));
+					
 					if(alternative < distance.get(getNeighbors(u).get(i).getTo())) {
 
 						distance.put(getNeighbors(u).get(i).getTo(), alternative);
-
+						
 						predecessors.put(getNeighbors(u).get(i).getTo(), u);
 
 					}
 
 				}
-
+				System.out.println("Teste 1");
 				while(predecessors.get(target) != null) {
+					System.out.println("Teste 2");
 					S.add(target);
 					target = predecessors.get(target);
 				}
+				System.out.println("Teste 3");
 
 			}
 
-			for (int i = 0 ; i < S.size(); i++ ) {
-
-				finalDistance = finalDistance + distance.get(S.get(i));
-
-			}
-
-			return finalDistance;
+			
 		}
+		
+		for (int i = 0 ; i < S.size(); i++ ) {
+
+			finalDistance = finalDistance + distance.get(S.get(i));
+
+		}
+
+		return finalDistance;
 		//Doubt about this
-		return Double.POSITIVE_INFINITY;
+		//
 	}
 
 	private Vertex getMinimum(Set<Vertex> vertices) {
@@ -142,7 +154,7 @@ public class Dijkstra {
 		
 		for(int i = 0; i < DBScan.adjacencyList.get(node.getIndex()).size() ; i++) {
 			
-			neighbors.add(DBScan.adjacencyList.get(node.getIndex()).get(i));
+			neighbors.add(DBScan.adjacencyList.get( node.getIndex() ).get(i));
 			
 		}
 

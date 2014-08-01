@@ -67,7 +67,7 @@ public class FileReader {
 
 				split = textOfFile.split(" ");
 				Edge e = new Edge(Integer.parseInt(split[0]), Integer.parseInt(split[1]), 
-						Integer.parseInt(split[2]), Double.parseDouble(split[2]));
+						Integer.parseInt(split[2]), Double.parseDouble(split[3]));
 				listOfEdges.add(e);
 
 			} while ((textOfFile = br.readLine()) != null);
