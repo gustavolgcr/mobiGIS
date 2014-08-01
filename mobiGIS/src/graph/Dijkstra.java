@@ -18,21 +18,24 @@ public class Dijkstra {
 	private Set<Vertex> settledNodes;
 	private Set<Vertex> unSettledNodes;
 
+	private Map<Vertex, Double> distanceTeste;
+
+
 	private final List<Vertex> S = new ArrayList<Vertex>();
 
 	public Dijkstra(Graph graph) {
 		// create a copy of the array so that we can operate on this array
 		listOfVertices = new ArrayList<Vertex>(graph.getVertices());
 		listOfEdges = new ArrayList<Edge>(graph.getEdges());	
-		
+
 	}
 
-	public double execute(Vertex origin, Vertex destiny) {
+	public Map<Vertex,Double> execute(Vertex origin) {
 
-		
-		Vertex target = destiny;
+
+		//Vertex target = destiny;
 		distance = new HashMap<Integer, Double>();
-		
+
 		predecessors = new HashMap<Integer, Vertex>();
 
 		settledNodes = new HashSet<Vertex>();
@@ -40,89 +43,105 @@ public class Dijkstra {
 
 		double finalDistance = 0.0;
 
-	
+		distanceTeste = new HashMap<Vertex, Double>();
+
+
 		distance.put(origin.getIndex(), 0.0);
-		
+
 		// This size is equal to 70393
 		for (int i = 0 ; i < listOfVertices.size() ; i++) {
-			
+
 
 			if(listOfVertices.get(i).getIndex() != origin.getIndex()) {
-				distance.put(listOfVertices.get(i).getIndex(), Double.POSITIVE_INFINITY);
-				predecessors.put(listOfVertices.get(i).getIndex(), null);
+
+				if(listOfVertices.get(i).isClusterFlag() == true) {
+					distance.put(listOfVertices.get(i).getIndex(), Double.POSITIVE_INFINITY);
+					predecessors.put(listOfVertices.get(i).getIndex(), null);
+					
+					distanceTeste.put(listOfVertices.get(i), Double.POSITIVE_INFINITY);
+				}
+
+					distance.put(listOfVertices.get(i).getIndex(), Double.POSITIVE_INFINITY);
+					predecessors.put(listOfVertices.get(i).getIndex(), null);
+
+				
 
 			}
 
 			unSettledNodes.add(listOfVertices.get(i));
 
 		}
-		
-		System.out.println("Enquanto " +unSettledNodes.size()+" >0, faca:");
+
+//		System.out.println("Enquanto " +unSettledNodes.size()+" >0, faca:");
 		while(unSettledNodes.size() > 0) {
-			
+
 			// Pega o primeiro vertice, que tem distancia = 0.0 Logo, e o minimo
-			System.out.println("\tPega o vertice " + getMinimum(unSettledNodes).getIndex() + "para trabalhar e coloca dentro do settledNodes.");
+//			System.out.println("\tPega o vertice " + getMinimum(unSettledNodes).getIndex() + "para trabalhar e coloca dentro do settledNodes.");
 			Vertex u = getMinimum(unSettledNodes);
 			// Coloca ele 
 			settledNodes.add(u);
-			
+
 			unSettledNodes.remove(u);
-			
-			
-			
-			System.out.println("Se " + distance.get(u.getIndex()) + " for maior do que " + DBScan.eps);
+
+
+
+//			System.out.println("Se " + distance.get(u.getIndex()) + " for maior do que " + DBScan.eps);
 			if(distance.get(u.getIndex()) > DBScan.eps) {
 				//break;
-				
-				return Double.POSITIVE_INFINITY;
+
+				return distanceTeste;
 			} else {
 
 				for (int i = 0 ; i < getNeighbors(u).size(); i++) {
-					
-					
+
+
 					double alternative = 0.0;
 
 					//System.out.println("alternative = " + distance.get(u.getIndex()) + " + " + getNeighbors(u).get(i).getWeight());
 					alternative = distance.get(u.getIndex()) + getNeighbors(u).get(i).getWeight();
-					
-					System.out.println("ID: " + getNeighbors(u).get(i).getIndex() + " From: " + getNeighbors(u).get(i).getFrom() + 
-							" To: " + getNeighbors(u).get(i).getTo() + " Weight: " + getNeighbors(u).get(i).getWeight());
-					
-					System.out.println("Alternative = " + distance.get(u.getIndex()) + " + " + getNeighbors(u).get(i).getWeight());
-					
-					System.out.println("Se " + alternative + " for maior do que " + distance.get(getNeighbors(u).get(i).getTo()));
-					
+
+//					System.out.println("ID: " + getNeighbors(u).get(i).getIndex() + " From: " + getNeighbors(u).get(i).getFrom() + 
+//							" To: " + getNeighbors(u).get(i).getTo() + " Weight: " + getNeighbors(u).get(i).getWeight());
+
+//					System.out.println("Alternative = " + distance.get(u.getIndex()) + " + " + getNeighbors(u).get(i).getWeight());
+
+//					System.out.println("Se " + alternative + " for maior do que " + distance.get(getNeighbors(u).get(i).getTo()));
+
 					if(alternative < distance.get(getNeighbors(u).get(i).getTo())) {
 
-						distance.put(getNeighbors(u).get(i).getTo(), alternative);
+						if(u.isClusterFlag() == true){
+							for(int j = 0 ; j<listOfVertices.size(); j++)
+							{
+								//Refatorar
+								if(getNeighbors(u).get(i).getTo()==listOfVertices.get(j).getIndex()) {
+									distanceTeste.put(listOfVertices.get(j), alternative);
+								}
+							}
+							
+						}
 						
+						distance.put(getNeighbors(u).get(i).getTo(), alternative);
+
 						predecessors.put(getNeighbors(u).get(i).getTo(), u);
 
 					}
 
 				}
-				System.out.println("Teste 1");
-				while(predecessors.get(target) != null) {
-					System.out.println("Teste 2");
-					S.add(target);
-					target = predecessors.get(target);
-				}
-				System.out.println("Teste 3");
+				
+//				System.out.println("Teste 1");
+//				while(predecessors.get(target) != null) {
+//					System.out.println("Teste 2");
+//					S.add(target);
+//					target = predecessors.get(target);
+//				}
+//				System.out.println("Teste 3");
 
 			}
 
-			
-		}
-		
-		for (int i = 0 ; i < S.size(); i++ ) {
-
-			finalDistance = finalDistance + distance.get(S.get(i));
 
 		}
 
-		return finalDistance;
-		//Doubt about this
-		//
+		return distanceTeste;
 	}
 
 	private Vertex getMinimum(Set<Vertex> vertices) {
@@ -151,33 +170,33 @@ public class Dijkstra {
 		List<Edge> neighbors = new ArrayList<Edge>();
 
 		//Vertex neighbor = null;
-		
+
 		for(int i = 0; i < DBScan.adjacencyList.get(node.getIndex()).size() ; i++) {
-			
+
 			neighbors.add(DBScan.adjacencyList.get( node.getIndex() ).get(i));
-			
+
 		}
 
 		return neighbors;
 
 	}
 
-	
+
 	//TODO Refatorar
 	private double getDistance(Vertex node, Vertex target) {
-		
-//		System.out.println("Dado " + node.getIndex() + " e " + target.getIndex() + 
-//				", peso retornado é: " + DBScan.adjacencyList.get(node.getIndex()).get().getWeight());
-		
+
+		//		System.out.println("Dado " + node.getIndex() + " e " + target.getIndex() + 
+		//				", peso retornado é: " + DBScan.adjacencyList.get(node.getIndex()).get().getWeight());
+
 		return DBScan.adjacencyList.get(node.getIndex()).get(target.getIndex()).getWeight();
-		
-//		for (Edge edge : listOfEdges) {
-//			//System.out.println("Comparando " + edge.getFrom() + " com " + node.getIndex() + " e " + edge.getTo() + " com " + target.getIndex());
-//			if (edge.getFrom() == node.getIndex() && edge.getTo() == target.getIndex()) {
-//				return edge.getWeight();
-//			}  
-//		}
-//		throw new RuntimeException("Should not happen");
+
+		//		for (Edge edge : listOfEdges) {
+		//			//System.out.println("Comparando " + edge.getFrom() + " com " + node.getIndex() + " e " + edge.getTo() + " com " + target.getIndex());
+		//			if (edge.getFrom() == node.getIndex() && edge.getTo() == target.getIndex()) {
+		//				return edge.getWeight();
+		//			}  
+		//		}
+		//		throw new RuntimeException("Should not happen");
 	}
 
 }

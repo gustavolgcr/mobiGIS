@@ -2,50 +2,47 @@ package dbScan;
 import graph.Dijkstra;
 import graph.Graph;
 import graph.Vertex;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class Utility {
 
 	public static ArrayList<Vertex> listOfVisitedNodes = new ArrayList<Vertex>();
+	
+	public static Map<Vertex,Double> distances = new HashMap<Vertex, Double>();
 
-	public static double getDistance(Vertex origin, Vertex destiny, Graph g) {
+	private static ArrayList<Vertex> a;
+
+	public static Map<Vertex,Double> getDistance(Vertex origin,  Graph g) {
 		
 		Dijkstra dijkstra = new Dijkstra(g);
 
 		
-		return dijkstra.execute(origin, destiny);
+		return dijkstra.execute(origin);
 
 	}
 
 	public static ArrayList<Vertex> getNeighbours(Vertex v, Graph g) {
 
 		ArrayList<Vertex> neighbours = new ArrayList<Vertex>();
-
-		Iterator<Vertex> vertex = DBScan.listOfClusterizableVertices.iterator();
 		
+		distances = getDistance(v, g);
 		
-		//int counter = 0;
-		while (vertex.hasNext()) {
-
-			//Se o eps for menor do que a lista de adjacencia, pode dar um break;
+		for (Map.Entry<Vertex, Double> entry : distances.entrySet())
+		{
 			
-			Vertex w = vertex.next();
-			//counter ++;
-			
-			System.out.println("\tVamos verificar se o vertice " + v.getIndex() + " tem como 'vizinho' no arquivo 'pointsToCluster.txt' o vertice " + w.getIndex());
-			
-			//System.out.println(getDistance(v, w, g) + " e menor ou igual a " + DBScan.eps + "?");
-			
-			if (getDistance(v, w, g) <= DBScan.eps) {
+			if(entry.getValue() <= DBScan.eps) {
 				
-				neighbours.add(w);
-		
+				neighbours.add(entry.getKey());
 			}
 			
-			//System.out.println("Entrou no 'while' " + counter + " vezes.");
-		
+		    //System.out.println(entry.getKey() + "/" + entry.getValue());
 		}
+		
+		
 
 		return neighbours;
 		
@@ -62,8 +59,8 @@ public class Utility {
 		else {
 			return false;
 		}
-	}
-
+	} 
+	//ArrayList<Vertex> a
 	public static ArrayList<Vertex> Merge(ArrayList<Vertex> a, ArrayList<Vertex> b) {
 
 		Iterator<Vertex> iter = b.iterator();

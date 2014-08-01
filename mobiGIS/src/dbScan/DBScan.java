@@ -12,8 +12,8 @@ import graph.Vertex;
 
 public class DBScan {
 
-	public static double eps = 0.000001;	//Isso está em graus. temos que reconsiderar
-	public static int minPoints = 20;
+	public static double eps = 0.0001;	//Isso está em graus. temos que reconsiderar
+	public static int minPoints = 1;
 	public static List<Vertex> listOfClusterizableVertices = new ArrayList<Vertex>();
 	public static ArrayList<Vertex> listOfNeighbours = new ArrayList<Vertex>();
 	public static List<ArrayList<Vertex>> listOfResults = new ArrayList<ArrayList<Vertex>>();
@@ -24,8 +24,7 @@ public class DBScan {
 
 	public List<ArrayList<Vertex>> applyDBScan(Graph g) {
 
-//		System.out.println("AQUIIIIIIIIIIIII");
-//		System.out.println(g.getEdges().get(136505).getWeight());
+
 		
 		listOfResults.clear();
 		Utility.listOfVisitedNodes.clear();
@@ -55,40 +54,46 @@ public class DBScan {
 			Vertex v = listOfClusterizableVertices.get(i);
 
 			if (!Utility.isVisited(v)) {
-				System.out.println("Teste 1");
+//				System.out.println("Checkpoint 1");
 				Utility.Visited(v);
-				System.out.println("Teste 2");
-				System.out.println("Pegaremos seus vizinhos.");
+//				System.out.println("Checkpoint 2");
 				//Proxima linha esta demorando muito
 				listOfNeighbours = Utility.getNeighbours(v,g);
 				
-				System.out.println("Lista do(s) " + listOfNeighbours.size() +" vizinhos de " + listOfClusterizableVertices.get(i).getIndex() + " encontrados:");
-				for(int k=0; k<listOfNeighbours.size();k++) {
-					System.out.println(listOfNeighbours.get(k).getIndex());
+				if(listOfNeighbours.size()>0) {
+					System.out.println("Lista dos " + listOfNeighbours.size() +" vizinhos de " + listOfClusterizableVertices.get(i).getIndex() + " encontrados:");
+					for(int k=0; k<listOfNeighbours.size();k++) {
+						
+						System.out.println(listOfNeighbours.get(k).getIndex());
+					}
 				}
 				
-				System.out.println("Teste 3");
+				
+				
+//				System.out.println("Checkpoint 3");
 				if (listOfNeighbours.size() >= minPoints) {
-					System.out.println("Teste 4");
+//					System.out.println("Checkpoint 4");
 					for(int j=0; j<listOfNeighbours.size(); j++) {
-						System.out.println("Teste 5");
+//						System.out.println("Checkpoint 5");
 						Vertex w = listOfNeighbours.get(j);
 						if (!Utility.isVisited(w)) {
-							System.out.println("Teste 6");
+//							System.out.println("Checkpoint 6");
 							Utility.Visited(w);
 							
 							//Proxima linha esta demorando muito
 							ArrayList<Vertex> listOfNeighbours2 = Utility.getNeighbours(w,g);
 							
-							System.out.println("Teste 7");
+//							System.out.println("Checkpoint 7");
 							if (listOfNeighbours2.size() >= minPoints) {
-								System.out.println("Teste 8");
+								System.out.println("Checkpoint 8");
+								
 								listOfNeighbours = Utility.Merge(listOfNeighbours, listOfNeighbours2);
-								System.out.println("Teste 9");
+//								System.out.println("Checkpoint 9");
 							}
 						}
 
 					}
+					
 
 					listOfResults.add(listOfNeighbours);
 
