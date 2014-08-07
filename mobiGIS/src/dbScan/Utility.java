@@ -14,7 +14,7 @@ public class Utility {
 	
 	public static Map<Vertex,Double> distances = new HashMap<Vertex, Double>();
 
-	private static ArrayList<Vertex> a;
+	
 
 	public static Map<Vertex,Double> getDistance(Vertex origin,  Graph g) {
 		
@@ -33,14 +33,16 @@ public class Utility {
 		
 		for (Map.Entry<Vertex, Double> entry : distances.entrySet())
 		{
-			
-			if(entry.getValue() <= DBScan.eps) {
+			//Coloquei mais uma comparacao
+			if(entry.getValue() <= DBScan.eps && entry.getKey().isClusterFlag()==true) {
 				
 				neighbours.add(entry.getKey());
 			}
 			
 		    //System.out.println(entry.getKey() + "/" + entry.getValue());
 		}
+		
+		
 		
 		
 
@@ -60,7 +62,7 @@ public class Utility {
 			return false;
 		}
 	} 
-	//ArrayList<Vertex> a
+	
 	public static ArrayList<Vertex> Merge(ArrayList<Vertex> a, ArrayList<Vertex> b) {
 
 		Iterator<Vertex> iter = b.iterator();

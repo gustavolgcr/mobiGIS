@@ -32,6 +32,7 @@ public class Dijkstra {
 
 	public Map<Vertex,Double> execute(Vertex origin) {
 
+		
 
 		//Vertex target = destiny;
 		distance = new HashMap<Integer, Double>();
@@ -41,7 +42,6 @@ public class Dijkstra {
 		settledNodes = new HashSet<Vertex>();
 		unSettledNodes = new HashSet<Vertex>();
 
-		double finalDistance = 0.0;
 
 		distanceTeste = new HashMap<Vertex, Double>();
 
@@ -78,7 +78,7 @@ public class Dijkstra {
 			// Pega o primeiro vertice, que tem distancia = 0.0 Logo, e o minimo
 //			System.out.println("\tPega o vertice " + getMinimum(unSettledNodes).getIndex() + "para trabalhar e coloca dentro do settledNodes.");
 			Vertex u = getMinimum(unSettledNodes);
-			// Coloca ele 
+			
 			settledNodes.add(u);
 
 			unSettledNodes.remove(u);
@@ -90,6 +90,7 @@ public class Dijkstra {
 				//break;
 
 				return distanceTeste;
+				
 			} else {
 
 				for (int i = 0 ; i < getNeighbors(u).size(); i++) {
@@ -110,13 +111,20 @@ public class Dijkstra {
 					if(alternative < distance.get(getNeighbors(u).get(i).getTo())) {
 
 						if(u.isClusterFlag() == true){
-							for(int j = 0 ; j<listOfVertices.size(); j++)
-							{
-								//Refatorar
-								if(getNeighbors(u).get(i).getTo()==listOfVertices.get(j).getIndex()) {
-									distanceTeste.put(listOfVertices.get(j), alternative);
-								}
-							}
+
+							
+							distanceTeste.put(u, alternative);
+							
+//							for(int j = 0 ; j<listOfVertices.size(); j++)
+//							{
+//								//Refatorar
+//								if(getNeighbors(u).get(i).getTo()==listOfVertices.get(j).getIndex()) {
+//									
+//									distanceTeste.put(listOfVertices.get(j), alternative);
+//								
+//								}
+//							
+//							}
 							
 						}
 						

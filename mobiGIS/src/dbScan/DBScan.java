@@ -12,40 +12,46 @@ import graph.Vertex;
 
 public class DBScan {
 
-	public static double eps = 0.0001;	//Isso está em graus. temos que reconsiderar
-	public static int minPoints = 1;
+	public static double eps = 0.01;	//Isso está em graus. temos que reconsiderar 0.01/1
+	public static int minPoints = 7;
 	public static List<Vertex> listOfClusterizableVertices = new ArrayList<Vertex>();
-	public static ArrayList<Vertex> listOfNeighbours = new ArrayList<Vertex>();
-	public static List<ArrayList<Vertex>> listOfResults = new ArrayList<ArrayList<Vertex>>();
+	public ArrayList<Vertex> listOfNeighbours = new ArrayList<Vertex>();
+	public List<ArrayList<Vertex>> listOfResults = new ArrayList<ArrayList<Vertex>>();
 
 	public static Map<Integer, List<Edge>> adjacencyList = new HashMap<Integer, List<Edge>>();
 	
 	long start, end, diff;
 
 	public List<ArrayList<Vertex>> applyDBScan(Graph g) {
-
-
 		
 		listOfResults.clear();
 		Utility.listOfVisitedNodes.clear();
 		
-		//TODO Read again this adjacencyList
 		// Creating the adjacencyList
-		for(Vertex v : g.getVertices()){
+		for(Vertex v : g.getVertices()) {
+			
 			adjacencyList.put(v.getIndex(), new ArrayList<Edge>());
 		}	
 		for(Edge e : g.getEdges()){	
+		
 			List<Edge> neighbors = adjacencyList.get(e.getFrom());
 			neighbors.add(e);
+		
 		}
 
 		// Creating the listOfClusterizableVertices.
 		// This list will tell us which vertex should be clusterized and which shouldn't
-		for(int i = 0 ; i<g.getVertices().size() ; i++) {
+		for(int i = 0; i < g.getVertices().size(); i++) {
+			
 			if(g.getVertices().get(i).isClusterFlag() == true) {
+			
 				listOfClusterizableVertices.add(g.getVertices().get(i));
+			
 			}
+		
 		}
+		
+		
 
 		// For all vertices in the listOfClusterizableVertices, lets check if it is part of a cluster
 		for(int i=0; i<listOfClusterizableVertices.size(); i++) {
@@ -106,23 +112,33 @@ public class DBScan {
 
 			StringBuilder storage = new StringBuilder();
 
-
+			storage.append("Index Latitude Longitude isClusterizable ClusterID");
+			storage.append("\n");
+			
 			for (int i = 0; i < listOfResults.size(); i++) {
 				int aux2 = i+1;
 
-				storage.append(String.valueOf(aux2));
-				storage.append(": ");
-
 				for (int j = 0; j < listOfResults.get(i).size(); j++) {
-					//This getIndex() looks weird...
-					storage.append(String.valueOf( listOfResults.get(i).get(j).getIndex() ));
+					
+					
+					storage.append(String.valueOf(listOfResults.get(i).get(j).getIndex()));
 					storage.append(" ");
+					storage.append(String.valueOf(listOfResults.get(i).get(j).getLatitude()));
+					storage.append(" ");
+					storage.append(String.valueOf(listOfResults.get(i).get(j).getLongitude()));
+					storage.append(" ");
+					storage.append(String.valueOf(listOfResults.get(i).get(j).isClusterFlag()));
+					storage.append(" ");
+					storage.append(String.valueOf(aux2));
+					storage.append("\n");
+					
+	
 
 				}
-				storage.append("\n");
+				
 			}
 
-			File file = new File("/home/gustavolgcr/Desktop/clusters.txt");
+			File file = new File("/home/gustavolgcr/Desktop/qgisEntry.txt");
 
 			if (!file.exists()) {
 				file.createNewFile();
