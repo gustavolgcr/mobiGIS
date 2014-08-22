@@ -12,8 +12,8 @@ import graph.Vertex;
 
 public class DBScan {
 
-	public static double eps = 0.01;	//Isso está em graus. temos que reconsiderar 0.01/1
-	public static int minPoints = 7;
+	public static double eps = 100;	//Isso está em graus. temos que reconsiderar 0.01/1
+	public static int minPoints = 2;
 	public static List<Vertex> listOfClusterizableVertices = new ArrayList<Vertex>();
 	public ArrayList<Vertex> listOfNeighbours = new ArrayList<Vertex>();
 	public List<ArrayList<Vertex>> listOfResults = new ArrayList<ArrayList<Vertex>>();
@@ -138,7 +138,7 @@ public class DBScan {
 				
 			}
 
-			File file = new File("/home/gustavolgcr/Desktop/qgisEntry.txt");
+			File file = new File("src/qgisEntry.txt");
 
 			if (!file.exists()) {
 				file.createNewFile();

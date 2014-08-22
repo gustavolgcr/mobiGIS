@@ -1,4 +1,4 @@
-package dbScan;
+package preProcessor;
 
 import graph.Edge;
 import graph.Vertex;
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class PreProcessing {
 
+	// Essa classe pre processa todos os vertices e todas as arestas de tal forma a
+	
 	ArrayList<Vertex> listOfVertices = new ArrayList<Vertex>();
 	ArrayList<Edge> listOfEdges = new ArrayList<Edge>();
 	

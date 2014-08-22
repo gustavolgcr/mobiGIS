@@ -1,4 +1,4 @@
-package dbScan;
+package preProcessor;
 
 import graph.Edge;
 import graph.Vertex;
@@ -10,15 +10,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+
 public class FileReader {
 	
-	private static double latitudeY(double latitude) {
-		return 6378137 * java.lang.Math.log(java.lang.Math
-				.tan(java.lang.Math.PI / 4 + 0.5
-						* java.lang.Math.toRadians(latitude)));
+	//	Essa classe tem como funcao principal carregar os dados originais e simplesmente colocalos em estruturas de dados simples para que a 
+	//	classe PreProcessing possa utilizalos
+	
+	public static double latitudeY(double latitude) {
+		return 6378137*java.lang.Math.log(java.lang.Math.tan(java.lang.Math.PI / 4 + 0.5
+				* java.lang.Math.toRadians(latitude)));
 	}
 
-	private static double longitudeX(double longitude) {
+	public static double longitudeX(double longitude){
 		return 6378137 * java.lang.Math.toRadians(longitude);
 	}
 	
@@ -32,13 +35,15 @@ public class FileReader {
 		return distancia;
 	}
 	
+	// Le o arquivo grafoRedeDeRuas e coloca em um ArrayList de ArrayList de Double
+	
 	void grafoRedeDeRuasReader(ArrayList<ArrayList<Double>> rawData) {
 		 
 		String[] split0, split1, splitAux;
 
 		try {
 			
-			InputStream is = new FileInputStream("src/grafoRedeDeRuas.txt");
+			InputStream is = new FileInputStream("src/rawData/grafoRedeDeRuas.txt");
 
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
@@ -84,13 +89,15 @@ public class FileReader {
  
  	}
 
+	// Le o arquivo pointsToCluster e coloca em um ArrayList de ArrayList de Double
+	
 	void pointsToClusterReader(ArrayList<ArrayList<Double>> rawDataPoints) {
 
 		String[] split;
 
 		try {
 
-			InputStream is = new FileInputStream("src/pointsToCluster.txt");
+			InputStream is = new FileInputStream("src/rawData/pointsToCluster.txt");
 
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
@@ -138,7 +145,7 @@ public class FileReader {
 
 		try {
 
-			InputStream is = new FileInputStream("src/listOfVertices.txt");
+			InputStream is = new FileInputStream("src/listOfVerticesTest.txt");
 
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
@@ -148,8 +155,10 @@ public class FileReader {
 			do {
 
 				split = textOfFile.split(" ");
-				Vertex v = new Vertex(Integer.parseInt(split[0]), longitudeX(Double.parseDouble(split[1])), 
-						latitudeY(Double.parseDouble(split[2])), Boolean.parseBoolean(split[3]));
+				
+
+				
+				Vertex v = new Vertex( Integer.parseInt(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Boolean.parseBoolean(split[3]));
 				listOfVertices.add(v);
 
 			} while ((textOfFile = br.readLine()) != null);
@@ -174,7 +183,7 @@ public class FileReader {
 
 		try {
 
-			InputStream is = new FileInputStream("src/listOfEdges.txt");
+			InputStream is = new FileInputStream("src/listOfEdgesTest.txt");
 
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);

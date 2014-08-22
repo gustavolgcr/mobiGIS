@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import preProcessor.FileReader;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
@@ -14,12 +15,13 @@ public class Main {
 
 	public static void main(String[] args) {
 
-
 		ArrayList<Vertex> listOfVertices = new ArrayList<Vertex>();
 		ArrayList<Edge> listOfEdges = new ArrayList<Edge>();
 		FileReader reader = new FileReader();
 
 		System.out.println("Loading 'listOfVertices' and 'listOfEdges'.");
+		
+		//Problema esta no listOfVertices
 		listOfVertices = reader.listOfVerticesReader();
 		listOfEdges = reader.listOfEdgesReader();
 
@@ -33,7 +35,8 @@ public class Main {
 		for(int i = 0 ; i < dbscan.listOfResults.size() ; i++) {
 			for(int j=0 ; j < dbscan.listOfResults.get(i).size() ; j++){
 
-				System.out.println(dbscan.listOfResults.get(i).get(j));
+				System.out.println("Vertice " + dbscan.listOfResults.get(i).get(j).getIndex() + ". Latitude: " +
+										dbscan.listOfResults.get(i).get(j).getLatitude() + ". Longitude: " + dbscan.listOfResults.get(i).get(j).getLongitude() + ".");
 				System.out.println("\n");
 
 			}
