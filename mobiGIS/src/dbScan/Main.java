@@ -24,6 +24,84 @@ public class Main {
 		//Problema esta no listOfVertices
 		listOfVertices = reader.listOfVerticesReader();
 		listOfEdges = reader.listOfEdgesReader();
+		
+		
+		
+		
+		
+		
+//		try {
+//
+//			StringBuilder storage = new StringBuilder();
+//			storage.append("oid;Line");
+//			storage.append("\n");
+//
+//			for (int i = 0; i < listOfEdges.size(); i++) {
+//				
+//				for(int j=0; j < listOfVertices.size(); j++) {
+//					if(listOfEdges.get(i).getFrom() == listOfVertices.get(j).getIndex()) {
+//						
+//						
+//						storage.append(String.valueOf(i+1));
+//						storage.append(";LINESTRING(");
+//						storage.append(String.valueOf(listOfVertices.get(j).getLongitude()));
+//						storage.append(" ");
+//						storage.append(String.valueOf(listOfVertices.get(j).getLatitude()));
+//						storage.append(", ");
+//						break;
+//					}
+//				}
+//				
+//				for(int j=0; j < listOfVertices.size(); j++) {
+//					if(listOfEdges.get(i).getTo() == listOfVertices.get(j).getIndex()) {
+//						
+//						storage.append(String.valueOf(listOfVertices.get(j).getLongitude()));
+//						storage.append(" ");
+//						storage.append(String.valueOf(listOfVertices.get(j).getLatitude()));
+//						storage.append(")");
+//						break;
+//					}
+//
+//				}
+//				storage.append("\n");
+//			}
+//
+//			
+//
+//			File file = new File("src/qgisEntryEdges.txt");
+//
+//			// if file doesn't exists, then create it
+//			if (!file.exists()) {
+//
+//				file.createNewFile();
+//
+//			}
+//
+//			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//			BufferedWriter bw = new BufferedWriter(fw);
+//			bw.write(storage.toString());
+//			bw.close();
+//
+//			System.out.println("Done qgisEntryEdges.txt");
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 		System.out.println("Creating a graph with 'listOfVertices' and 'listOfEdges'.");				
 		Graph g = new Graph(listOfVertices, listOfEdges);
@@ -43,6 +121,39 @@ public class Main {
 
 		}
 
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 //		try {
 //
 //			StringBuilder storage = new StringBuilder();
